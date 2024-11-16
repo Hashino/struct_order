@@ -61,6 +61,7 @@ void swap(OrderStruct order, int dest, int source) {
   void *s = nthENTRY(order, source);
   void *d = nthENTRY(order, dest);
 
+  // TODO: investigate safer way
   memcpy(tmp, d, order.data_entry_size);
   memcpy(d, s, order.data_entry_size);
   memcpy(s, tmp, order.data_entry_size);
@@ -68,7 +69,7 @@ void swap(OrderStruct order, int dest, int source) {
   free(tmp);
 }
 
-void selectionSort(OrderStruct order, bool (*cmp)(void *, void *)) {
+void _selectionSort(OrderStruct order, bool (*cmp)(void *, void *)) {
   for (int i = 0; i < order.data_len - 1; i++) {
     int min_idx = i;
 
@@ -85,16 +86,34 @@ void selectionSort(OrderStruct order, bool (*cmp)(void *, void *)) {
       swap(order, i, min_idx);
   }
 }
+void selectionSort(OrderStruct order, bool (*cmp)(void *, void *)) {
+  // TODO: boundary check
+  _selectionSort(order, cmp);
+}
 
+void _radixSort(OrderStruct order, bool (*cmp)(void *, void *)) {
+  // TODO: implement
+}
 void radixSort(OrderStruct order, bool (*cmp)(void *, void *)) {
-  // TODO:
-};
+  // TODO: boundary check
+  _radixSort(order, cmp);
+}
+
+void _bucketSort(OrderStruct order, bool (*cmp)(void *, void *)) {
+  // TODO: implement
+}
 void bucketSort(OrderStruct order, bool (*cmp)(void *, void *)) {
-  // TODO:
-};
+  // TODO: boundary check
+  _bucketSort(order, cmp);
+}
+
+void _quickSortInd(OrderStruct order, bool (*cmp)(void *, void *)) {
+  // TODO: implement
+}
 void quickSortInd(OrderStruct order, bool (*cmp)(void *, void *)) {
-  // TODO:
-};
+  // TODO: boundary check
+  _quickSortInd(order, cmp);
+}
 
 void exampleStatic() {
   struct Data {
