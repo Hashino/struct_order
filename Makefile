@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := all
 
-TARGET := bin
+TARGET := order
 
 SRC := src
 BIN := bin
@@ -26,6 +26,9 @@ CC := gcc
 
 run: all
 	@$(EXE)
+
+valgrind: all
+	valgrind --leak-check=full $(EXE)
 
 ### general targets
 
