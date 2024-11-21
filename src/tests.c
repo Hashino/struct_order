@@ -38,19 +38,19 @@ void testBucketSort() {
   Cadastro data[7] = UNORDERED_DATA;
   bool res = false;
 
-  bucketSort(makeORDER(data, nome), makePREFIXES_STR_ASC(), ltSTR);
+  bucketSort(makeORDER(data, nome), makePRFX_STR_ASC());
   res = eqCAD_ARR(data, ORDERED_NOME_ASC, 7);
   printResult("bucketSort\t\tby Name\tAscending", res);
 
-  bucketSort(makeORDER(data, nome), makePREFIXES_STR_ASC(), gtSTR);
+  bucketSort(makeORDER(data, nome), makePRFX_STR_DES());
   res = eqCAD_ARR(data, ORDERED_NOME_DES, 7);
   printResult("bucketSort\t\tby Name\tDescending", res);
 
-  bucketSort(makeORDER(data, cpf), makePREFIXES_INT_ASC(), ltINT);
+  bucketSort(makeORDER(data, cpf), makePRFX_INT_ASC());
   res = eqCAD_ARR(data, ORDERED_CPF_ASC, 7);
   printResult("bucketSort\t\tby CPF\tAscending", res);
 
-  bucketSort(makeORDER(data, cpf), makePREFIXES_INT_ASC(), gtINT);
+  bucketSort(makeORDER(data, cpf), makePRFX_INT_DES());
   res = eqCAD_ARR(data, ORDERED_CPF_DES, 7);
   printResult("bucketSort\t\tby CPF\tDescending", res);
 }
