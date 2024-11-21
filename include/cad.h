@@ -5,10 +5,6 @@
 #include <stdint.h>
 #include <stdio.h>
 
-// #pragma scalar_storage_order little-endian
-
-// typedef struct __attribute__((packed,
-//                               scalar_storage_order("big-endian"))) Cadastro {
 typedef struct Cadastro {
   char nome[10];
   uint32_t cpf;
