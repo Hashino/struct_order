@@ -1,4 +1,3 @@
-
 #include "../include/tests.h"
 
 #include <stdbool.h>
