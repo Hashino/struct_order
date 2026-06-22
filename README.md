@@ -102,6 +102,8 @@ The names above match `include/order.h` exactly.
 - `INT_P_*`: integer prefix metadata (`P` = prefix; `INT_P_N_ENTRIES`, `INT_P_ENTRY_SIZE`)
 - `STR_B_*`: string bucket metadata (`B` = bucket; `STR_B_N_ENTRIES`, `STR_B_ENTRY_SIZE`)
 
+The `INT_P_*` vs `STR_B_*` difference is historical naming from `include/order.h`.
+
 Shorthand macros in `include/order.h` expand to those extra arguments:
 
 ```c
