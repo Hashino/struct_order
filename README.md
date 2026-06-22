@@ -36,7 +36,9 @@ Person people[] = {
 selectionSort(makeORDER(people, age), ltINT); // static array
 
 Person *heap_people = malloc(sizeof(Person) * 3);
-/* populate heap_people ... */
+heap_people[0] = (Person){"Alice", 30};
+heap_people[1] = (Person){"Bob", 25};
+heap_people[2] = (Person){"Carol", 35};
 quickSort(makeORDER_DYN(heap_people, age, 3), gtINT); // dynamic array
 free(heap_people);
 ```
@@ -60,9 +62,10 @@ Implemented helpers:
 - Int: `ltINT`, `gtINT`, `eqINT`
 - String: `ltSTR`, `gtSTR`, `eqSTR`
 - "Binary string" helpers (`ltBIN_STR`, `gtBIN_STR`) are historical API names used by
-  `radixSort(..., 's', ...);` both currently delegate to `strcmp`.
+  `radixSort(..., 's', ...);` both of these helpers currently delegate to `strcmp`.
 
-The long helpers (`ltLNG`, `gtLNG`, `eqLNG`) are declared in `include/order.h` but are not implemented in `src/` yet; if you need long-key sorting (sorting by `long` fields) today, pass your own `cmpFn` implementation.
+The long helpers (`ltLNG`, `gtLNG`, `eqLNG`) are declared in `include/order.h` but are not implemented in `src/` yet.
+If you need long-key sorting (sorting by `long` fields) today, pass your own `cmpFn` implementation.
 There is no `eqBIN_STR` helper in the current implementation.
 
 ## Helper macros in `include/order.h`
