@@ -62,6 +62,7 @@ Implemented helpers:
 - Binary string (`strcmp`): `ltBIN_STR`, `gtBIN_STR`
 
 The long helpers (`ltLNG`, `gtLNG`, `eqLNG`) are declared in `include/order.h` but are not implemented in `src/` yet.
+There is no `eqBIN_STR` helper in the current implementation.
 
 ## Helper macros in `include/order.h`
 
@@ -91,7 +92,7 @@ bucketSort(makeORDER(people, name), eqSTR, prefixSTR, STR_PRFX_DES,
            STR_B_N_ENTRIES, STR_B_ENTRY_SIZE, gtSTR);
 ```
 
-The `INT_*` and `STR_*` constant names above match the exact identifiers from `include/order.h`.
+The `INT_*` and `STR_*` names above match `include/order.h` exactly (`P` in `INT_P_*`, `B` in `STR_B_*`).
 
 Shorthand macros in `include/order.h` expand to those extra arguments:
 
