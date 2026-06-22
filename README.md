@@ -62,7 +62,7 @@ Implemented helpers:
 - "Binary string" helpers (`ltBIN_STR`, `gtBIN_STR`) are historical API names used by
   `radixSort(..., 's', ...);` both currently delegate to `strcmp`.
 
-The long helpers (`ltLNG`, `gtLNG`, `eqLNG`) are declared in `include/order.h` but are not implemented in `src/` yet; if you need long-key sorting today, pass your own `cmpFn` implementation.
+The long helpers (`ltLNG`, `gtLNG`, `eqLNG`) are declared in `include/order.h` but are not implemented in `src/` yet; if you need long-key sorting (sorting by `long` fields) today, pass your own `cmpFn` implementation.
 There is no `eqBIN_STR` helper in the current implementation.
 
 ## Helper macros in `include/order.h`
@@ -87,6 +87,7 @@ bucketSort(order, eq, prfx, b_prefixes, n_prefixes, prefix_size, cmp);
 Example with explicit arguments:
 
 ```c
+/* using Person people[] from Quick Start */
 bucketSort(makeORDER(people, age), eqINT, prefixINT, INT_PRFX_ASC,
            INT_P_N_ENTRIES, INT_P_ENTRY_SIZE, ltINT);
 bucketSort(makeORDER(people, name), eqSTR, prefixSTR, STR_PRFX_DES,
