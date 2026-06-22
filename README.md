@@ -16,7 +16,7 @@ make valgrind
 make clean
 ```
 
-## Quick start
+## Quick Start
 
 ```c
 #include <stdlib.h>
