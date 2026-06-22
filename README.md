@@ -19,7 +19,7 @@ make clean
 ## Quick Start
 
 ```c
-#include <stdlib.h>
+#include <stdlib.h> // malloc/free for dynamic-array example below
 #include "include/order.h"
 
 typedef struct {
@@ -59,7 +59,7 @@ Implemented helpers:
 
 - Int: `ltINT`, `gtINT`, `eqINT`
 - String: `ltSTR`, `gtSTR`, `eqSTR`
-- Binary string (direct `strcmp` on C strings): `ltBIN_STR`, `gtBIN_STR`
+- "Binary string" helpers (historical API name; both call `strcmp`): `ltBIN_STR`, `gtBIN_STR`
 
 The long helpers (`ltLNG`, `gtLNG`, `eqLNG`) are declared in `include/order.h` but are not implemented in `src/` yet.
 There is no `eqBIN_STR` helper in the current implementation.
