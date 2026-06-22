@@ -119,9 +119,13 @@ typedef void (*prefixFn)(void *, void *);
   eqSTR, prefixSTR, STR_PRFX_DES, STR_B_N_ENTRIES, STR_B_ENTRY_SIZE, gtSTR
 
 /// nth functions
+/** @brief Returns a pointer to the key of the n-th entry. */
 void *nthKEY(OrderStruct order, int n);
+/** @brief Returns a pointer to the n-th entry. */
 void *nthENTRY(OrderStruct order, int n);
+/** @brief Swaps two entries in-place by index. */
 void swap(OrderStruct order, int dest, int source);
+/** @brief Swaps two entry pointers by index (for indirect ordering). */
 void swap_ind(OrderStruct order, int dest, int source);
 
 /** @brief returns true if any1 == any2 by memcmp */
@@ -134,9 +138,12 @@ bool gtINT(void *int1, void *int2);
 /** @brief returns true if int1 < int2 */
 bool ltINT(void *int1, void *int2);
 
-bool gtLNG(void *int1, void *int2);
-bool ltLNG(void *int1, void *int2);
-bool eqLNG(void *int1, void *int2);
+/** @brief returns true if lng1 > lng2 */
+bool gtLNG(void *lng1, void *lng2);
+/** @brief returns true if lng1 < lng2 */
+bool ltLNG(void *lng1, void *lng2);
+/** @brief returns true if lng1 == lng2 */
+bool eqLNG(void *lng1, void *lng2);
 
 /** @brief returns true if str1 == str2 (by strcmp) */
 bool eqSTR(void *str1, void *str2);
