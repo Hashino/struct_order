@@ -1,40 +1,25 @@
 # struct_order
 
-A C library for agnostically ordering arrays of structs by a member value.
+A small C library for sorting arrays of structs by one chosen field.
 
-It provides a small `OrderStruct` abstraction plus helper macros so you can sort static or dynamic arrays without writing type-specific glue code each time.
-
-## Features
-
-- Sort arrays of structs by any field
-- Works with static arrays and dynamically allocated arrays
-- Multiple sorting algorithms:
-  - `selectionSort`
-  - `quickSort`
-  - `quickSortInd`
-  - `bucketSort`
-  - `radixSort`
-- Comparison helpers for:
-  - integers
-  - strings
-  - binary strings
-- Prefix helpers for bucket/radix-style sorting
-
-## Installation
-
-Clone the repository and build it with `make`:
+## Build and run
 
 ```bash
-git clone https://github.com/Hashino/struct_order.git
-cd struct_order
 make
+make run
 ```
 
-## Quick Start
+Optional:
 
-Include the main header and create an `OrderStruct` with `makeORDER` or `makeORDER_DYN`.
+```bash
+make valgrind
+make clean
+```
+
+## Quick start
 
 ```c
+#include <stdlib.h>
 #include "include/order.h"
 
 typedef struct {
@@ -48,78 +33,37 @@ Person people[] = {
     {"Carol", 35}
 };
 
-selectionSort(makeORDER(people, age), ltINT);
+selectionSort(makeORDER(people, age), ltINT); // static array
+
+Person *heap_people = malloc(sizeof(Person) * 3);
+/* populate heap_people ... */
+quickSort(makeORDER_DYN(heap_people, age, 3), gtINT); // dynamic array
+free(heap_people);
 ```
 
-## Static Arrays
+## API (implemented in `src/`)
 
-Use `makeORDER(array, field)` for fixed-size arrays:
+- `selectionSort(order, cmp)`
+- `quickSort(order, cmp)`
+- `bucketSort(order, eq, prfx, b_prefixes, n_prefixes, prefix_size, cmp)`
+- `radixSort(order, type, asc)` where:
+  - `type = 'i'` for integer keys
+  - `type = 's'` for string keys
+  - `asc = true` ascending, `false` descending
 
-```c
-typedef struct {
-    char title[50];
-    int priority;
-} Task;
+`quickSortInd` is declared in `include/order.h` but not implemented in `src/` yet.
 
-Task tasks[] = {
-    {"Task A", 3},
-    {"Task B", 1},
-    {"Task C", 2}
-};
+## Comparison helpers
 
-quickSort(makeORDER(tasks, priority), ltINT);
-```
+Implemented helpers:
 
-## Dynamic Arrays
+- Int: `ltINT`, `gtINT`, `eqINT`
+- String: `ltSTR`, `gtSTR`, `eqSTR`
+- Binary string (`strcmp`): `ltBIN_STR`, `gtBIN_STR`
 
-Use `makeORDER_DYN(ptr, field, count)` for heap-allocated arrays.
+`ltLNG`, `gtLNG`, and `eqLNG` are declared in `include/order.h`, but are not implemented in `src/` yet.
 
-> Note: the repository currently provides comparison helpers for `int`, `long`, and strings. If you sort a non-integer field, choose a comparator that matches the field type.
-
-```c
-typedef struct {
-    char title[50];
-    int rating;
-} Movie;
-
-Movie *movies = malloc(sizeof(Movie) * 3);
-// populate movies...
-
-quickSort(makeORDER_DYN(movies, rating, 3), gtINT);
-```
-
-## Comparison Functions
-
-Available comparison helpers:
-
-- Integers: `ltINT`, `gtINT`, `eqINT`
-- Longs: `ltLNG`, `gtLNG`, `eqLNG`
-- Strings: `ltSTR`, `gtSTR`, `eqSTR`
-- Binary strings: `ltBIN_STR`, `gtBIN_STR`
-
-## Sorting Algorithms
-
-### `selectionSort(order, cmp)`
-Simple O(n²) sorting algorithm. Good for small arrays.
-
-### `quickSort(order, cmp)`
-Fast average-case O(n log n) sorting.
-
-### `quickSortInd(order, cmp)`
-Indirect quicksort that reorders pointers instead of the underlying data.
-
-### `bucketSort(order, eq, prfx, b_prefixes, n_prefixes, prefix_size, cmp)`
-Groups data into buckets using a prefix function, then sorts each bucket.
-
-### `radixSort(order, type, asc)`
-Specialized radix sort for integers and strings.
-
-- `type = 'i'` for integers
-- `type = 's'` for strings
-- `asc = true` for ascending order
-- `asc = false` for descending order
-
-## Helper Macros
+## Helper macros in `include/order.h`
 
 - `makeORDER(entries, value)`
 - `makeORDER_DYN(entries, value, n_entries)`
@@ -130,47 +74,19 @@ Specialized radix sort for integers and strings.
 - `makePRFX_STR_ASC()`
 - `makePRFX_STR_DES()`
 
-## Examples
+## Bucket sort usage
 
-Sort by a string field:
-
-```c
-typedef struct {
-    char name[30];
-    int grade;
-} Student;
-
-Student students[] = {
-    {"Charlie", 85},
-    {"Alice", 92},
-    {"Bob", 78}
-};
-
-selectionSort(makeORDER(students, name), ltSTR);
-```
-
-Sort by an integer field in descending order:
+Use the exact signature:
 
 ```c
-typedef struct {
-    char name[30];
-    int score;
-} Player;
-
-Player players[] = {
-    {"Ana", 12},
-    {"Ben", 25},
-    {"Cara", 18}
-};
-
-quickSort(makeORDER(players, score), gtINT);
+bucketSort(order, eq, prfx, b_prefixes, n_prefixes, prefix_size, cmp);
 ```
 
-## Build & Run Tests
+Typical calls use prefix macros:
 
-```bash
-make
-make run
+```c
+bucketSort(makeORDER(people, age), makePRFX_INT_ASC());
+bucketSort(makeORDER(people, name), makePRFX_STR_DES());
 ```
 
 ## License
