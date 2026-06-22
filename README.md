@@ -1,74 +1,78 @@
 # struct_order
 
-A C library for agnostically ordering arrays of structs by any member value. Supports multiple sorting algorithms including selection sort, quicksort, bucket sort, and radix sort.
+A C library for agnostically ordering arrays of structs by a member value.
+
+It provides a small `OrderStruct` abstraction plus helper macros so you can sort static or dynamic arrays without writing type-specific glue code each time.
+
+## Features
+
+- Sort arrays of structs by any field
+- Works with static arrays and dynamically allocated arrays
+- Multiple sorting algorithms:
+  - `selectionSort`
+  - `quickSort`
+  - `quickSortInd`
+  - `bucketSort`
+  - `radixSort`
+- Comparison helpers for:
+  - integers
+  - strings
+  - binary strings
+- Prefix helpers for bucket/radix-style sorting
+
+## Installation
+
+Clone the repository and build it with `make`:
+
+```bash
+git clone https://github.com/Hashino/struct_order.git
+cd struct_order
+make
+```
 
 ## Quick Start
+
+Include the main header and create an `OrderStruct` with `makeORDER` or `makeORDER_DYN`.
 
 ```c
 #include "include/order.h"
 
-struct Person {
+typedef struct {
     char name[50];
     int age;
-};
+} Person;
 
-struct Person people[3] = {
+Person people[] = {
     {"Alice", 30},
     {"Bob", 25},
     {"Carol", 35}
 };
 
-// Sort by age (ascending)
 selectionSort(makeORDER(people, age), ltINT);
 ```
 
-## Build & Run
+## Static Arrays
 
-```bash
-make
-./struct_order
-```
-
-## Examples
-
-### Sorting by Integer Field
+Use `makeORDER(array, field)` for fixed-size arrays:
 
 ```c
-struct Data {
-    char name[20];
+typedef struct {
+    char title[50];
     int priority;
-};
+} Task;
 
-struct Data tasks[4] = {
+Task tasks[] = {
     {"Task A", 3},
     {"Task B", 1},
-    {"Task C", 2},
-    {"Task D", 1}
+    {"Task C", 2}
 };
 
-// Sort by priority (ascending)
 quickSort(makeORDER(tasks, priority), ltINT);
 ```
 
-### Sorting by String Field
+## Dynamic Arrays
 
-```c
-struct Student {
-    char name[30];
-    int grade;
-};
-
-struct Student students[3] = {
-    {"Charlie", 85},
-    {"Alice", 92},
-    {"Bob", 78}
-};
-
-// Sort by name (alphabetical)
-selectionSort(makeORDER(students, name), ltSTR);
-```
-
-### Dynamic Arrays
+Use `makeORDER_DYN(ptr, field, count)` for heap-allocated arrays:
 
 ```c
 typedef struct {
@@ -77,51 +81,92 @@ typedef struct {
 } Movie;
 
 Movie *movies = malloc(sizeof(Movie) * 3);
-// ... populate movies ...
+// populate movies...
 
-// Sort by rating (descending)
 quickSort(makeORDER_DYN(movies, rating, 3), gtINT);
 ```
 
-## Available Algorithms
-
-- `selectionSort()` - Simple O(n²) algorithm, good for small arrays
-- `quickSort()` - Fast O(n log n) average case
-- `quickSortInd()` - Indirect sorting (reorders pointers, not data)
-- `bucketSort()` - Good for uniformly distributed data
-- `radixSort()` - Linear time for integers/strings
-
 ## Comparison Functions
 
-- **Integers**: `ltINT`, `gtINT`, `eqINT`
-- **Strings**: `ltSTR`, `gtSTR`, `eqSTR`
-- **Binary strings**: `ltBIN_STR`, `gtBIN_STR`
+Available comparison helpers:
 
-## Tutorial
+- Integers: `ltINT`, `gtINT`, `eqINT`
+- Strings: `ltSTR`, `gtSTR`, `eqSTR`
+- Binary strings: `ltBIN_STR`, `gtBIN_STR`
 
-### 1. Basic Sorting
+## Sorting Algorithms
 
-The core concept is the `OrderStruct` which describes how to access and compare your data:
+### `selectionSort(order, cmp)`
+Simple O(n²) sorting algorithm. Good for small arrays.
+
+### `quickSort(order, cmp)`
+Fast average-case O(n log n) sorting.
+
+### `quickSortInd(order, cmp)`
+Indirect quicksort that reorders pointers instead of the underlying data.
+
+### `bucketSort(order, eq, prfx, prefixes, n_prefixes, prefix_size, cmp)`
+Groups data into buckets using a prefix function, then sorts each bucket.
+
+### `radixSort(order, type, asc)`
+Specialized radix sort for integers and strings.
+
+- `type = 'i'` for integers
+- `type = 's'` for strings
+- `asc = true` for ascending order
+- `asc = false` for descending order
+
+## Helper Macros
+
+- `makeORDER(entries, value)`
+- `makeORDER_DYN(entries, value, n_entries)`
+- `makePRFX_INT_ASC()`
+- `makePRFX_INT_DES()`
+- `makePRFX_STR_ASC()`
+- `makePRFX_STR_DES()`
+
+## Examples
+
+Sort by a string field:
 
 ```c
-// For static arrays - use makeORDER macro
-selectionSort(makeORDER(array, field_name), comparison_function);
+typedef struct {
+    char name[30];
+    int grade;
+} Student;
 
-// For dynamic arrays - specify size
-quickSort(makeORDER_DYN(ptr, field_name, count), comparison_function);
+Student students[] = {
+    {"Charlie", 85},
+    {"Alice", 92},
+    {"Bob", 78}
+};
+
+selectionSort(makeORDER(students, name), ltSTR);
 ```
 
-### 2. Custom Comparison
+Sort by an integer field in descending order:
 
-TODO: Add section on creating custom comparison functions
+```c
+typedef struct {
+    char name[30];
+    int score;
+} Player;
 
-### 3. Advanced Algorithms
+Player players[] = {
+    {"Ana", 12},
+    {"Ben", 25},
+    {"Cara", 18}
+};
 
-TODO: Add detailed examples for bucket sort and radix sort with different data types
+quickSort(makeORDER(players, score), gtINT);
+```
 
-### 4. Performance Considerations
+## Build & Run Tests
 
-TODO: Add algorithm complexity comparison and when to use each
+```bash
+make test
+./tests
+```
 
 ## License
 
