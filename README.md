@@ -61,7 +61,7 @@ Implemented helpers:
 - String: `ltSTR`, `gtSTR`, `eqSTR`
 - Binary string (`strcmp`): `ltBIN_STR`, `gtBIN_STR`
 
-`ltLNG`, `gtLNG`, and `eqLNG` are declared in `include/order.h`, but are not implemented in `src/` yet.
+`ltLNG`, `gtLNG`, and `eqLNG` are declared in `include/order.h` but are not implemented in `src/` yet.
 
 ## Helper macros in `include/order.h`
 
