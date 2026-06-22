@@ -61,8 +61,8 @@ Implemented helpers:
 
 - Int: `ltINT`, `gtINT`, `eqINT`
 - String: `ltSTR`, `gtSTR`, `eqSTR`
-- "Binary string" helpers (`ltBIN_STR`, `gtBIN_STR`) are historical API names used by
-  `radixSort(..., 's', ...);` both of these helpers currently delegate to `strcmp`.
+- Binary string helpers (`ltBIN_STR`, `gtBIN_STR`) are legacy names used by
+  `radixSort(..., 's', ...)`; both delegate to `strcmp`.
 
 The long helpers (`ltLNG`, `gtLNG`, `eqLNG`) are declared in `include/order.h` but are not implemented in `src/` yet.
 If you need long-key sorting (sorting by `long` fields) today, pass your own `cmpFn` implementation.
@@ -99,8 +99,8 @@ bucketSort(makeORDER(people, name), eqSTR, prefixSTR, STR_PRFX_DES,
 
 The names above match `include/order.h` exactly.
 - `*_PRFX_*`: prefix value tables (`INT_PRFX_ASC`, `STR_PRFX_DES`, ...)
-- `INT_P_*`: integer prefix metadata (`INT_P_N_ENTRIES`, `INT_P_ENTRY_SIZE`)
-- `STR_B_*`: string bucket metadata (`STR_B_N_ENTRIES`, `STR_B_ENTRY_SIZE`)
+- `INT_P_*`: integer prefix metadata (`P` = prefix; `INT_P_N_ENTRIES`, `INT_P_ENTRY_SIZE`)
+- `STR_B_*`: string bucket metadata (`B` = bucket; `STR_B_N_ENTRIES`, `STR_B_ENTRY_SIZE`)
 
 Shorthand macros in `include/order.h` expand to those extra arguments:
 
