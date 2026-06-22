@@ -82,7 +82,16 @@ Use the exact signature:
 bucketSort(order, eq, prfx, b_prefixes, n_prefixes, prefix_size, cmp);
 ```
 
-Typical calls use prefix macros:
+Example with explicit arguments:
+
+```c
+bucketSort(makeORDER(people, age), eqINT, prefixINT, INT_PRFX_ASC,
+           INT_P_N_ENTRIES, INT_P_ENTRY_SIZE, ltINT);
+bucketSort(makeORDER(people, name), eqSTR, prefixSTR, STR_PRFX_DES,
+           STR_B_N_ENTRIES, STR_B_ENTRY_SIZE, gtSTR);
+```
+
+Shorthand macros in `include/order.h` expand to those extra arguments:
 
 ```c
 bucketSort(makeORDER(people, age), makePRFX_INT_ASC());
