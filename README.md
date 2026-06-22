@@ -60,9 +60,9 @@ Implemented helpers:
 - Int: `ltINT`, `gtINT`, `eqINT`
 - String: `ltSTR`, `gtSTR`, `eqSTR`
 - "Binary string" helpers (`ltBIN_STR`, `gtBIN_STR`) are historical API names used by
-  `radixSort(..., 's', ...)`; both currently delegate to `strcmp`.
+  `radixSort(..., 's', ...);` both currently delegate to `strcmp`.
 
-The long helpers (`ltLNG`, `gtLNG`, `eqLNG`) are declared in `include/order.h` but are not implemented in `src/` yet. If you need long-key sorting today, pass your own `cmpFn` implementation.
+The long helpers (`ltLNG`, `gtLNG`, `eqLNG`) are declared in `include/order.h` but are not implemented in `src/` yet; if you need long-key sorting today, pass your own `cmpFn` implementation.
 There is no `eqBIN_STR` helper in the current implementation.
 
 ## Helper macros in `include/order.h`
