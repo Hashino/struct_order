@@ -97,7 +97,7 @@ bucketSort(makeORDER(people, name), eqSTR, prefixSTR, STR_PRFX_DES,
            STR_B_N_ENTRIES, STR_B_ENTRY_SIZE, gtSTR);
 ```
 
-The names above match `include/order.h` exactly:
+The names above match `include/order.h` exactly.
 - `*_PRFX_*`: prefix value tables (`INT_PRFX_ASC`, `STR_PRFX_DES`, ...)
 - `INT_P_*`: integer prefix metadata (`INT_P_N_ENTRIES`, `INT_P_ENTRY_SIZE`)
 - `STR_B_*`: string bucket metadata (`STR_B_N_ENTRIES`, `STR_B_ENTRY_SIZE`)
