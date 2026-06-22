@@ -72,12 +72,14 @@ quickSort(makeORDER(tasks, priority), ltINT);
 
 ## Dynamic Arrays
 
-Use `makeORDER_DYN(ptr, field, count)` for heap-allocated arrays:
+Use `makeORDER_DYN(ptr, field, count)` for heap-allocated arrays.
+
+> Note: the repository currently provides comparison helpers for `int`, `long`, and strings. If you sort a non-integer field, choose a comparator that matches the field type.
 
 ```c
 typedef struct {
     char title[50];
-    float rating;
+    int rating;
 } Movie;
 
 Movie *movies = malloc(sizeof(Movie) * 3);
@@ -91,6 +93,7 @@ quickSort(makeORDER_DYN(movies, rating, 3), gtINT);
 Available comparison helpers:
 
 - Integers: `ltINT`, `gtINT`, `eqINT`
+- Longs: `ltLNG`, `gtLNG`, `eqLNG`
 - Strings: `ltSTR`, `gtSTR`, `eqSTR`
 - Binary strings: `ltBIN_STR`, `gtBIN_STR`
 
@@ -105,7 +108,7 @@ Fast average-case O(n log n) sorting.
 ### `quickSortInd(order, cmp)`
 Indirect quicksort that reorders pointers instead of the underlying data.
 
-### `bucketSort(order, eq, prfx, prefixes, n_prefixes, prefix_size, cmp)`
+### `bucketSort(order, eq, prfx, b_prefixes, n_prefixes, prefix_size, cmp)`
 Groups data into buckets using a prefix function, then sorts each bucket.
 
 ### `radixSort(order, type, asc)`
@@ -122,6 +125,8 @@ Specialized radix sort for integers and strings.
 - `makeORDER_DYN(entries, value, n_entries)`
 - `makePRFX_INT_ASC()`
 - `makePRFX_INT_DES()`
+- `makePRFX_LNG_ASC()`
+- `makePRFX_LNG_DES()`
 - `makePRFX_STR_ASC()`
 - `makePRFX_STR_DES()`
 
@@ -164,8 +169,8 @@ quickSort(makeORDER(players, score), gtINT);
 ## Build & Run Tests
 
 ```bash
-make test
-./tests
+make
+make run
 ```
 
 ## License
